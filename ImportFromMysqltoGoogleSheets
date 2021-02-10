@@ -5,16 +5,14 @@ var user = 'user';
 var instanceUrl = 'jdbc:mysql://' + address;
 var dbUrl = instanceUrl + '/' + db;
 
-
 function readFromTable() {
   var conn = Jdbc.getConnection(dbUrl, user, userPwd);
   var stmt = conn.createStatement();
   stmt.setMaxRows(1000);
   var results = stmt.executeQuery('SELECT count(field1),field2 FROM newcons group by field2');
   var numCols = results.getMetaData().getColumnCount();
-
- var spreadsheet = SpreadsheetApp.getActive();
- var cell = spreadsheet.getSheetByName("nameSheet").getRange('A2');
+  var spreadsheet = SpreadsheetApp.getActive();
+  var cell = spreadsheet.getSheetByName("nameSheet").getRange('A2');
   var row =0;
   while (results.next()) {
     var rowString = '';
