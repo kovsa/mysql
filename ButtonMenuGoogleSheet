@@ -1,0 +1,5 @@
+function menu() 
+{
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+ ss.addMenu("Export to MySql", [{name: "<<Enter>>", functionName: "NameScript"}]); 
+}
