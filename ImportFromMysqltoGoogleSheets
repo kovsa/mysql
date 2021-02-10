@@ -1,0 +1,29 @@
+var address = 'server.ru:3306';
+var userPwd = 'password';
+var db = 'namebase';
+var user = 'user';
+var instanceUrl = 'jdbc:mysql://' + address;
+var dbUrl = instanceUrl + '/' + db;
+
+
+function readFromTable() {
+  var conn = Jdbc.getConnection(dbUrl, user, userPwd);
+  var stmt = conn.createStatement();
+  stmt.setMaxRows(1000);
+  var results = stmt.executeQuery('SELECT count(field1),field2 FROM newcons group by field2');
+  var numCols = results.getMetaData().getColumnCount();
+
+ var spreadsheet = SpreadsheetApp.getActive();
+ var cell = spreadsheet.getSheetByName("nameSheet").getRange('A2');
+  var row =0;
+  while (results.next()) {
+    var rowString = '';
+    for (var col = 0; col < numCols; col++) {
+      rowString += results.getString(col + 1) + '\t';
+      cell.offset(row, col).setValue(results.getString(col +1 ));
+    }
+    row++
+  } ;
+  results.close();
+  stmt.close();
+}
